@@ -1,0 +1,56 @@
+name: MeetingRecorder
+
+options:
+  bundleIdPrefix: com.usmanailab
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "15.0"
+  groupSortPosition: top
+  generateEmptyDirectories: true
+
+packages:
+  GRDB:
+    url: https://github.com/groue/GRDB.swift
+    from: "6.29.3"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    ENABLE_HARDENED_RUNTIME: YES
+
+targets:
+  MeetingRecorder:
+    type: application
+    platform: macOS
+    sources:
+      - path: MeetingRecorder
+    info:
+      path: MeetingRecorder/Resources/Info.plist
+      properties:
+        CFBundleName: MeetingRecorder
+        CFBundleDisplayName: Meeting Recorder
+        CFBundleIdentifier: com.usmanailab.MeetingRecorder
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "0.1.0"
+        LSUIElement: true
+        NSMicrophoneUsageDescription: "Meeting Recorder needs microphone access to capture your voice during meetings."
+        NSScreenCaptureDescription: "Meeting Recorder uses Screen Recording permission to capture system audio (other participants). No screen content is recorded."
+        NSHumanReadableCopyright: "© 2026 UsmanAI-Lab"
+    entitlements:
+      path: MeetingRecorder/Resources/MeetingRecorder.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+        com.apple.security.device.audio-input: true
+        com.apple.security.screen-capture: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.usmanailab.MeetingRecorder
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        ENABLE_HARDENED_RUNTIME: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - package: GRDB
+    scheme:
+      testTargets: []
