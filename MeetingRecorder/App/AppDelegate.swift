@@ -4,6 +4,7 @@ import SwiftUI
 // MARK: - AppDelegate
 
 @available(macOS 13.0, *)
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu Bar
@@ -45,9 +46,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // Observe recording state to update menu bar icon
-        Task { @MainActor in
+        Task {
             for await _ in coordinator.$recordingState.values {
-                self.updateStatusItemIcon()
+                await MainActor.run { self.updateStatusItemIcon() }
             }
         }
 
