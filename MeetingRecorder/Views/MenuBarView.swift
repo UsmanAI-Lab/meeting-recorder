@@ -43,10 +43,9 @@ struct MenuBarView: View {
         HStack(spacing: 12) {
             // App icon + title
             HStack(spacing: 8) {
-                Image(systemName: "waveform.circle.fill")
+                Image(systemName: coordinator.isRecording ? "waveform.circle.fill" : "waveform.circle")
                     .font(.title2)
                     .foregroundStyle(coordinator.isRecording ? .red : .blue)
-                    .symbolEffect(.pulse, isActive: coordinator.isRecording)
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Meeting Recorder")
@@ -169,12 +168,16 @@ struct MenuBarView: View {
             Image(systemName: coordinator.meetings.isEmpty ? "waveform.slash" : "magnifyingglass")
                 .font(.largeTitle)
                 .foregroundStyle(.tertiary)
-            Text(coordinator.meetings.isEmpty
-                 ? "No recordings yet\nClick Record to start"
-                 : "No results for "\(searchText)"")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+            Group {
+                if coordinator.meetings.isEmpty {
+                    Text("No recordings yet\nClick Record to start")
+                } else {
+                    Text("No results for \"\(searchText)\"")
+                }
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .frame(height: 200)
