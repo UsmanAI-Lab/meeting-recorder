@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import ScreenCaptureKit
+import Darwin
 
 // MARK: - SystemAudioCapture
 
@@ -112,10 +113,7 @@ extension SystemAudioCapture: SCStreamOutput {
 
         do {
             guard let pcmBuffer = try sampleBuffer.asPCMBuffer() else { return }
-            let time = AVAudioTime(hostTime: sampleBuffer.presentationTimeStamp.convertScale(
-                Int32(AVAudioTime.hostTimeForSeconds(1)),
-                method: .default
-            ).value)
+            let time = AVAudioTime(hostTime: mach_absolute_time())
             onBuffer?(pcmBuffer, time)
         } catch {
             // Non-fatal: log and continue
